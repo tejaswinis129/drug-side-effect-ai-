@@ -4,7 +4,7 @@ WORKDIR /app
 COPY . .
 
 RUN pip install --upgrade pip
-RUN pip install gradio numpy huggingface_hub==0.19.4
+RUN pip install gradio numpy matplotlib huggingface_hub==0.19.4
 
 EXPOSE 7860
 
