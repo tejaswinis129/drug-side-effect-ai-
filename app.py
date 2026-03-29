@@ -1,8 +1,10 @@
 import random
 import gradio as gr
+import matplotlib.pyplot as plt
 
 random.seed(42)
 
+# Environment
 class DrugEnv:
     def __init__(self):
         self.reset()
@@ -30,7 +32,7 @@ class DrugEnv:
             self.health += random.randint(0, 3)
             self.side_effect += random.randint(0, 3)
 
-        # Clamp values
+        # Clamp
         self.health = max(0, min(100, self.health))
         self.side_effect = max(0, min(100, self.side_effect))
 
@@ -43,23 +45,38 @@ class DrugEnv:
             "reward": round(reward, 2)
         }
 
-# ✅ Grader (needed for inference.py)
+# Grader (for inference compatibility)
 def grader(state):
     score = (state["health"]/100) - (state["side_effect"]/100)
     return max(0, min(1, round(score, 2)))
 
-
-# 🌐 UI PART
+# UI + Graph
 env = DrugEnv()
+history_health = []
+history_side = []
 
 def simulate(action):
     result = env.step(action)
-    return f"""
-Health: {result['health']}
+
+    history_health.append(result["health"])
+    history_side.append(result["side_effect"])
+
+    # Plot
+    plt.figure()
+    plt.plot(history_health, label="Health")
+    plt.plot(history_side, label="Side Effect")
+    plt.legend()
+    plt.xlabel("Steps")
+    plt.ylabel("Values")
+    plt.title("Health vs Side Effects")
+
+    return (
+        f"""Health: {result['health']}
 Side Effect: {result['side_effect']}
 Drug: {result['drug']}
-Reward: {result['reward']}
-"""
+Reward: {result['reward']}""",
+        plt
+    )
 
 demo = gr.Interface(
     fn=simulate,
@@ -67,8 +84,8 @@ demo = gr.Interface(
         ["Increase Dose", "Decrease Dose", "Switch Drug", "Maintain"],
         label="Choose Action"
     ),
-    outputs="text",
-    title="💊 Drug Side Effect AI"
+    outputs=["text", "plot"],
+    title="💊 Drug Side Effect AI with Visualization"
 )
 
 if __name__ == "__main__":
