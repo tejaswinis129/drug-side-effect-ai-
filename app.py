@@ -84,7 +84,7 @@ demo = gr.Interface(
         ["Increase Dose", "Decrease Dose", "Switch Drug", "Maintain"],
         label="Choose Action"
     ),
-    outputs=[gr.Textbox(), gr.Plot()]
+    outputs=[gr.Textbox(), gr.Plot()],
     title="💊 Drug Side Effect AI with Visualization"
 )
 
