@@ -3,6 +3,6 @@ FROM python:3.9
 WORKDIR /app
 COPY . .
 
-RUN pip install numpy
+RUN pip install gradio numpy
 
-CMD ["python", "inference.py"]
+CMD ["python", "app.py"]
