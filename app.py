@@ -12,9 +12,37 @@ class DrugEnv:
     def reset(self):
         self.health = random.randint(40, 60)
         self.side_effect = random.randint(10, 30)
-        self.drug = random.randint(1, 3)
+        self.drugs = ["Paracetamol", "Ibuprofen", "Amoxicillin"]
+        self.drug = random.choice(self.drugs)
 
     def step(self, action):
+        def step(self, action):
+
+    if action == "Increase Dose":
+        self.health += random.randint(5, 10)
+        self.side_effect += random.randint(6, 10)
+
+    elif action == "Decrease Dose":
+        self.health -= random.randint(2, 6)
+        self.side_effect -= random.randint(3, 7)
+
+    elif action == "Switch Drug":
+        self.drug = random.choice(self.drugs)
+
+    elif action == "Maintain":
+        self.health += random.randint(0, 3)
+        self.side_effect += random.randint(0, 3)
+
+    # ✅ ADD THIS PART HERE (medicine behavior)
+    if self.drug == "Paracetamol":
+        self.health += 5
+        self.side_effect += 2
+    elif self.drug == "Ibuprofen":
+        self.health += 7
+        self.side_effect += 5
+    elif self.drug == "Amoxicillin":
+        self.health += 6
+        self.side_effect += 3
         if action == "Increase Dose":
             self.health += random.randint(5, 10)
             self.side_effect += random.randint(6, 10)
@@ -24,7 +52,7 @@ class DrugEnv:
             self.side_effect -= random.randint(3, 7)
 
         elif action == "Switch Drug":
-            self.drug = random.randint(1, 3)
+            self.drug = random.choice(self.drugs)
             self.health += random.randint(3, 8)
             self.side_effect += random.randint(2, 6)
 
