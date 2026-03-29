@@ -71,12 +71,12 @@ def simulate(action):
     plt.title("Health vs Side Effects")
 
     return (
-        f"""Health: {result['health']}
+    f"""Health: {result['health']}
 Side Effect: {result['side_effect']}
 Drug: {result['drug']}
 Reward: {result['reward']}""",
-        plt
-    )
+    plt.gcf()
+)
 
 demo = gr.Interface(
     fn=simulate,
@@ -84,7 +84,7 @@ demo = gr.Interface(
         ["Increase Dose", "Decrease Dose", "Switch Drug", "Maintain"],
         label="Choose Action"
     ),
-    outputs=["text", "plot"],
+    outputs=[gr.Textbox(), gr.Plot()]
     title="💊 Drug Side Effect AI with Visualization"
 )
 
