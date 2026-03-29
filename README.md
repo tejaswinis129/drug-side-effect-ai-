@@ -60,3 +60,4 @@ docker build -t drug-env
 docker run drug-env
 # final update
 # graph fix final
+# force rebuild final
