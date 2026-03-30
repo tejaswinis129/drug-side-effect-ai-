@@ -43,22 +43,22 @@ class DrugEnv:
     elif self.drug == "Amoxicillin":
         self.health += 6
         self.side_effect += 3
-        if action == "Increase Dose":
-            self.health += random.randint(5, 10)
-            self.side_effect += random.randint(6, 10)
+    if action == "Increase Dose":
+        self.health += random.randint(5, 10)
+        self.side_effect += random.randint(6, 10)
 
-        elif action == "Decrease Dose":
-            self.health -= random.randint(2, 6)
-            self.side_effect -= random.randint(3, 7)
+    elif action == "Decrease Dose":
+        self.health -= random.randint(2, 6)
+        self.side_effect -= random.randint(3, 7)
 
-        elif action == "Switch Drug":
-            self.drug = random.choice(self.drugs)
-            self.health += random.randint(3, 8)
-            self.side_effect += random.randint(2, 6)
+    elif action == "Switch Drug":
+        self.drug = random.choice(self.drugs)
+        self.health += random.randint(3, 8)
+        self.side_effect += random.randint(2, 6)
 
-        elif action == "Maintain":
-            self.health += random.randint(0, 3)
-            self.side_effect += random.randint(0, 3)
+    elif action == "Maintain":
+        self.health += random.randint(0, 3)
+        self.side_effect += random.randint(0, 3)
 
         # Clamp
         self.health = max(0, min(100, self.health))
