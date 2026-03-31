@@ -82,16 +82,17 @@ def simulate(action):
     plt.plot(history_health, marker='o', label="Health")
     plt.plot(history_side, marker='o', label="Side Effect")
     plt.legend()
-    plt.xlabel("Steps")
-    plt.ylabel("Values")
-    plt.title("Health vs Side Effects")
+
+    fig = plt.gcf()   # ✅ get figure
+
+    plt.close()       # ✅ ADD THIS LINE HERE
 
     return (
         f"""Health: {result['health']}
 Side Effect: {result['side_effect']}
 Drug: {result['drug']}
 Reward: {result['reward']}""",
-        plt.gcf()
+        fig
     )
 
 
