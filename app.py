@@ -8,7 +8,6 @@ class DrugEnv:
     def __init__(self):
         self.drugs = ["Paracetamol", "Ibuprofen", "Amoxicillin"]
 
-        # 💊 Medicine details
         self.drug_info = {
             "Paracetamol": {
                 "effect": "Mild pain relief",
@@ -36,7 +35,6 @@ class DrugEnv:
 
     def step(self, action):
 
-        # 🔹 ACTION EFFECT
         if action == "Increase Dose":
             self.health += random.randint(5, 10)
             self.side_effect += random.randint(6, 10)
@@ -54,12 +52,11 @@ class DrugEnv:
             self.health += random.randint(0, 3)
             self.side_effect += random.randint(0, 3)
 
-        # 💊 MEDICINE EFFECT (dynamic)
+        # 💊 Medicine effect
         info = self.drug_info[self.drug]
         self.health += info["health_boost"]
         self.side_effect += info["side_effect"]
 
-        # 🔹 Clamp values
         self.health = max(0, min(100, self.health))
         self.side_effect = max(0, min(100, self.side_effect))
 
@@ -80,7 +77,6 @@ history_side = []
 step_count = 0
 
 
-# 🎯 SIMULATION FUNCTION
 def simulate(action):
     global step_count
     step_count += 1
@@ -90,16 +86,15 @@ def simulate(action):
     history_health.append(result["health"])
     history_side.append(result["side_effect"])
 
-    # 💊 Drug info
     drug_effect = env.drug_info[result["drug"]]["effect"]
 
-    # 🤖 AI Suggestion
+    # 🤖 AI suggestion
     if result["health"] > 70 and result["side_effect"] < 30:
         suggestion = "Good strategy 👍"
     else:
-        suggestion = "Consider adjusting dose or switching drug 🤔"
+        suggestion = "Adjust dose or switch drug 🤔"
 
-    # ⚠️ Risk Level
+    # ⚠️ Risk level
     if result["side_effect"] < 30:
         risk = "Low ✅"
     elif result["side_effect"] < 60:
@@ -123,23 +118,22 @@ def simulate(action):
 
     return (
         f"""
-Step: {step_count}
+🧪 Step: {step_count}
 
 💊 Drug: {result['drug']}
-Effect: {drug_effect}
+🧠 Effect: {drug_effect}
 
 📈 Health: {result['health']}
 ⚠️ Side Effect: {result['side_effect']}
 🏆 Reward: {result['reward']}
 
-⚠️ Risk Level: {risk}
+🚨 Risk Level: {risk}
 🤖 AI Suggestion: {suggestion}
 """,
         fig
     )
 
 
-# 🔄 RESET FUNCTION
 def reset():
     global env, history_health, history_side, step_count
     env = DrugEnv()
@@ -149,21 +143,32 @@ def reset():
     return "Environment Reset ✅", None
 
 
-# 🌐 UI
-with gr.Blocks() as demo:
-    gr.Markdown("# 💊 Drug Side Effect AI (Advanced)")
-    gr.Markdown("Simulate drug decisions to balance health and side effects.")
+# 🎨 UI
+with gr.Blocks(theme=gr.themes.Soft()) as demo:
 
-    action = gr.Dropdown(
-        ["Increase Dose", "Decrease Dose", "Switch Drug", "Maintain"],
-        label="Choose Action"
-    )
+    gr.Markdown("""
+    # 💊 Drug Side Effect AI Dashboard
+    ### ⚡ Smart Simulation for Treatment Optimization
+    """)
 
-    output_text = gr.Textbox()
-    output_plot = gr.Plot()
+    with gr.Row():
+        with gr.Column(scale=1):
+            action = gr.Dropdown(
+                ["Increase Dose", "Decrease Dose", "Switch Drug", "Maintain"],
+                label="🧠 Choose Action"
+            )
 
-    btn = gr.Button("Submit")
-    reset_btn = gr.Button("Reset")
+            btn = gr.Button("🚀 Run Simulation", variant="primary")
+            reset_btn = gr.Button("🔄 Reset", variant="secondary")
+
+        with gr.Column(scale=2):
+            output_text = gr.Textbox(label="📋 Patient Report", lines=12)
+            output_plot = gr.Plot(label="📊 Health vs Side Effects")
+
+    gr.Markdown("""
+    ---
+    💡 This system simulates drug decisions to balance patient health and side effects.
+    """)
 
     btn.click(simulate, inputs=action, outputs=[output_text, output_plot])
     reset_btn.click(reset, outputs=[output_text, output_plot])
