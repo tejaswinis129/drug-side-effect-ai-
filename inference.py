@@ -1,15 +1,8 @@
 from app import DrugEnv
 
-def inference(request=None):
-    # ✅ Default action
-    action = "Increase Dose"
-
-    # ✅ Handle all cases safely
-    if isinstance(request, dict):
-        action = request.get("action", "Increase Dose")
-
+def inference():
     env = DrugEnv()
-    result = env.step(action)
+    result = env.step("Increase Dose")
 
     return {
         "result": {
@@ -18,5 +11,4 @@ def inference(request=None):
             "drug": result["drug"],
             "reward": result["reward"]
         }
-    }  
-    
+    }
