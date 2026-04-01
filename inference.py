@@ -1,11 +1,12 @@
 from app import DrugEnv
 
-def inference(request: dict):
-    # ✅ handle missing input safely
-    action = request.get("action") if request else None
+def inference(request=None):   # ✅ allow None
 
-    if not action:
-        action = "Increase Dose"   # default fallback
+    # ✅ handle all cases safely
+    action = "Increase Dose"
+
+    if isinstance(request, dict):
+        action = request.get("action", "Increase Dose")
 
     env = DrugEnv()
     result = env.step(action)
