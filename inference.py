@@ -18,4 +18,5 @@ def inference(request=None):
             "drug": result["drug"],
             "reward": result["reward"]
         }
-    }
+    }  
+    
