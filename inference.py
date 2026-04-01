@@ -1,10 +1,10 @@
 from app import DrugEnv
 
-def inference(request=None):   # ✅ allow None
-
-    # ✅ handle all cases safely
+def inference(request=None):
+    # ✅ Default action
     action = "Increase Dose"
 
+    # ✅ Handle all cases safely
     if isinstance(request, dict):
         action = request.get("action", "Increase Dose")
 
