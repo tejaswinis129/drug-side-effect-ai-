@@ -1,3 +1,8 @@
+import os
+from huggingface_hub import login
+
+login(os.getenv("HF_TOKEN"))
+
 from app import DrugEnv, grader
 import random
 
