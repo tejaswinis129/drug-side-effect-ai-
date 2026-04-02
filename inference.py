@@ -1,18 +1,11 @@
 from app import DrugEnv
-import os
-from openai import OpenAI
 
 env = DrugEnv()
 
-client = OpenAI(
-    base_url=os.getenv("API_BASE_URL"),
-    api_key=os.getenv("HF_TOKEN")
-)
-
-def inference():
-    task = "drug-llm"
+def inference(request: dict):
+    task = "drug-task"
     env_name = "drug_env"
-    model = os.getenv("MODEL_NAME", "Qwen/Qwen2.5-72B-Instruct")
+    model = "custom-model"
 
     rewards = []
     steps = 0
@@ -21,25 +14,7 @@ def inference():
     print(f"[START] task={task} env={env_name} model={model}", flush=True)
 
     try:
-        state = env.state()
-
-        prompt = f"""
-        Patient state:
-        Health: {state['health']}
-        Side effect: {state['side_effect']}
-        Drug: {state['drug']}
-
-        Choose best action:
-        Increase Dose / Decrease Dose / Switch Drug / Maintain
-        """
-
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=20
-        )
-
-        action = response.choices[0].message.content.strip()
+        action = request.get("action", "Increase Dose")
 
         result = env.step(action)
 
